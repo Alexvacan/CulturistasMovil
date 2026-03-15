@@ -1,3 +1,25 @@
 <resources>
-    <string name="explore">Explore</string>
+    <string name="app_name">EasyPark</string>
+    <string name="signin_email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="signin">Iniciar sesión</string>
+    <string name="create_account_btn">Crear una cuenta</string>
+    <string name="register_fullname">Nombre completo</string>
+    <string name="fullname_placeholder">Introduce tu nombre completo</string>
+    <string name="register_phone">Numero de celular</string>
+    <string name="phone_placeholder">Introduce tu numero de celular</string>
+    <string name="email_placeholder">Introduce tu correo electronico</string>
+    <string name="register_role">Quiero ser...</string>
+    <string name="role_driver">Conductor</string>
+    <string name="driver_description">Reservar espacios de parqueo</string>
+    <string name="role_owner">Dueño</string>
+    <string name="owner_description">Manejar mi propio parqueo</string>
+    <string name="next">Siguiente</string>
+
+
+    <string name="finish">Finalizar</string>
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_mis_reservas">Mis Reservas</string>
+    <string name="nav_reservas">Reservas</string>
+    <string name="nav_espacios">Espacios</string>
 </resources>

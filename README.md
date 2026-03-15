@@ -1,35 +1,50 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# Guía de Desarrollo
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+¡Equipo! Para que la app sea uniforme, sigan estas reglas de oro:
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+### 1. Componentes Shared
+No creen botones o campos desde cero. Usen los de la carpeta `shared`:
+- `ParkButton`: Botón azul (por defecto) o azul claro (`isSecondary = true`).
+- `ParkTextField`: Para todos los inputs.
+- `ParkHeader`: Cabecera con título y flecha atrás.
 
-### Build and Run Android Application
+### 2. Cómo armar una pantalla de EasyPark
+Para que todo encaje, usa este "esqueleto" en tu `Screen`:
+```kotlin
+Scaffold(
+    topBar = {
+        ParkHeader(
+            title = "Título de la Pantalla",
+            onBackClick = { navController.popBackStack() }, // Poner null si no quieres flecha
+            onNotificationClick = { /* Acción */ } // Poner null si no quieres campana
+        )
+    },
+    bottomBar = {
+        // Elige el footer según el rol del usuario en tu pantalla
+        DriverFooter(currentScreen = "home_driver", onNavigate = { /* nav */ })
+    }
+) { padding ->
+    Column(modifier = Modifier.padding(padding)) {
+        // TU CONTENIDO AQUÍ
+    }
+}
+```
+Nota sobre Iconos: En los footers he usado ColorFilter.tint(color). Esto significa que aunque tu imagen JPG sea negra o azul, el código la pintará automáticamente de Gris o Azul según si está seleccionada o no.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+### 3. Imágenes y Iconos
+**IMPORTANTE:** No usen iconos del sistema. Todo se maneja con imágenes en `drawable`.
+Uso: `painterResource(Res.drawable.nombre_imagen)`.
 
-### Build and Run iOS Application
+### 4. Arquitectura y Koin
+Cada vez que hagan una pantalla, deben actualizar el **`PresentationModule.kt`**. Si se olvidan de registrar el ViewModel o el UseCase, la app se cerrará al navegar.
+```kotlin
+// Ejemplo
+viewModelOf(::RegistroViewModel)
+factory { RegistrarVehiculoUseCase(get()) }
+```
+### 5. Textos Estaticos
+Nada de "hardcoded text". Todo texto estatico debe estar en strings.xml y llamarse así:
+stringResource(Res.string.mi_texto)
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
-
----
-
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+### 6. Datos (Mocks)
+Como no tenemos base de datos real todavía, en el PresentationModule registren un Repositorio falso (Mock) que devuelva datos estáticos para poder probar las pantallas.
