@@ -1,4 +1,7 @@
 package com.easypark.app.register.presentation.state
 
-interface RegisterEffect {
+sealed interface RegisterEffect {
+    data object NavigateToLogin : RegisterEffect
+    data object NavigateToNext : RegisterEffect
+    data class ShowError(val message: String) : RegisterEffect
 }
