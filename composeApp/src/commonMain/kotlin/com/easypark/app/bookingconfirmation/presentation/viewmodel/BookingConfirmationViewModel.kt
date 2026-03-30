@@ -1,4 +1,6 @@
 package com.easypark.app.bookingconfirmation.presentation.viewmodel
 
-class BookingConfirmationViewModel {
+import androidx.lifecycle.ViewModel
+
+class BookingConfirmationViewModel : ViewModel() {
 }
