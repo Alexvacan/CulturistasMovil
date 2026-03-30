@@ -14,6 +14,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.sentry.android)
+                implementation(compose.materialIconsExtended)
             }
         }
     }
