@@ -25,7 +25,8 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ParkingDetailsScreen(
     viewModel: ParkingDetailsViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToBooking: (String) -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -46,7 +47,7 @@ fun ParkingDetailsScreen(
                 ) {
                     ParkButton(
                         text = stringResource(Res.string.reserve_button),
-                        onClick = { /* TODO: Nav to reservation */ },
+                        onClick = { onNavigateToBooking(state.parkingDetail!!.id) },
                         isSecondary = false
                     )
                 }
