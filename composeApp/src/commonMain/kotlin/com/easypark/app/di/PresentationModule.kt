@@ -16,11 +16,5 @@ import org.koin.dsl.module
 val presentationModule = module {
     viewModelOf(::SignInViewModel)
     viewModelOf(::RegisterViewModel)
-
-
-    viewModelOf(::NotificationsViewModel)
-    viewModelOf(::ParkingDetailsViewModel)
-    viewModelOf(::BookingConfirmationViewModel)
     viewModelOf(::SpaceManagementViewModel)
-    viewModelOf(::RegisterParkingViewModel)
 }

@@ -33,17 +33,18 @@ fun SignInScreen(
             when (effect) {
                 is SignInEffect.NavigateToHome -> {
                     if (effect.userType == UserType.OWNER) {
-                        navController.navigate("home_owner") // O la ruta que tengas
+                        navController.navigate(NavRoute.SpaceManagement) {
+                            popUpTo(NavRoute.SignIn) { inclusive = true }
+                        }
                     } else {
-                        navController.navigate("home_driver")
+                        // Si es conductor, lo envías a su pantalla (cuando la tengas)
+                        // navController.navigate(NavRoute.HomeDriver)
                     }
                 }
                 is SignInEffect.NavigateToRegister -> {
                     navController.navigate(NavRoute.Register)
                 }
-                is SignInEffect.ShowError -> {
-                    println(effect.message)
-                }
+                is SignInEffect.ShowError -> println(effect.message)
             }
         }
     }

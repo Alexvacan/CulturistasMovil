@@ -24,6 +24,7 @@ import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_back
 import kotlinproject.composeapp.generated.resources.ic_notification
 import org.jetbrains.compose.resources.painterResource
+import androidx.compose.foundation.layout.statusBarsPadding
 
 @Composable
 fun ParkHeader(
@@ -34,7 +35,8 @@ fun ParkHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .statusBarsPadding()
+            .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Botón Atrás (Solo si se pasa la función)

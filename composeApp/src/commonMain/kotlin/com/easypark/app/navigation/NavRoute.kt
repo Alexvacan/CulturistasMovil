@@ -15,12 +15,6 @@ sealed class NavRoute {
     @Serializable
     object RegisterParking: NavRoute()
 
-//    @Serializable
-//    data object ParkingDetails: NavRoute()
-//
-//    @Serializable
-//    data object BookingConfirmation: NavRoute()
-//
-//    @Serializable
-//    data object Notifications: NavRoute()
+    @Serializable
+    object SpaceManagement: NavRoute()
 }

@@ -1,4 +1,4 @@
-package com.easypark.app.spacemanagement.presentation.viewmodel
+package com.easypark.app.spacemanagement.presentation.state
 
 import com.easypark.app.spacemanagement.domain.model.ParkingSpot
 import com.easypark.app.spacemanagement.domain.model.SpaceSummary

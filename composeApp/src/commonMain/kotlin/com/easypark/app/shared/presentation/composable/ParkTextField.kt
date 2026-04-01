@@ -45,7 +45,7 @@ fun ParkTextField(
         TextField(
             value = value,
             onValueChange = onValueChange,
-            placeholder = { Text(placeholder, color = ParkGray, fontSize = 12.sp) },
+            placeholder = { Text(placeholder, color = ParkGray, fontSize = 14.sp) },
             textStyle = LocalTextStyle.current.copy(fontSize = 12.sp),
             modifier = Modifier
                 .fillMaxWidth()

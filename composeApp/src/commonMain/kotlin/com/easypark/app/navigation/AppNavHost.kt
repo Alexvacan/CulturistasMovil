@@ -4,16 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.easypark.app.bookingconfirmation.presentation.screen.BookingConfirmationScreen
-import com.easypark.app.bookingconfirmation.presentation.viewmodel.BookingConfirmationViewModel
-import com.easypark.app.notifications.presentation.screen.NotificationsScreen
-import com.easypark.app.notifications.presentation.viewmodel.NotificationsViewModel
-import com.easypark.app.parkingdetails.presentation.screen.ParkingDetailsScreen
-import com.easypark.app.parkingdetails.presentation.viewmodel.ParkingDetailsViewModel
 import com.easypark.app.register.presentation.screen.RegisterScreen
 import com.easypark.app.registerparking.presentation.screen.RegisterParkingScreen
 import com.easypark.app.signin.presentation.screen.SignInScreen
-import org.koin.compose.viewmodel.koinViewModel
+import com.easypark.app.spacemanagement.presentation.screen.SpaceManagementScreen
 
 @Composable
 fun AppNavHost() {
@@ -26,12 +20,17 @@ fun AppNavHost() {
         composable<NavRoute.SignIn> {
             SignInScreen(navController)
         }
+
         composable<NavRoute.Register> {
             RegisterScreen(navController)
         }
 
         composable<NavRoute.RegisterParking> {
             RegisterParkingScreen(navController)
+        }
+
+        composable<NavRoute.SpaceManagement> {
+            SpaceManagementScreen(navController)
         }
 
 

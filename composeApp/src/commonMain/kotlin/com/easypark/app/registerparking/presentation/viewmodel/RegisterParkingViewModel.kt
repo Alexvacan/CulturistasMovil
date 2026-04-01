@@ -32,8 +32,13 @@ class RegisterParkingViewModel(
             is RegisterParkingEvent.OnSpacesChanged -> _state.update {
                 it.copy(totalSpaces = event.spaces, isSpacesError = false)
             }
-            is RegisterParkingEvent.OnLocationChanged -> _state.update {
-                it.copy(latitude = event.lat, longitude = event.lng)
+            is RegisterParkingEvent.OnLocationChanged -> {
+                _state.update {
+                    it.copy(
+                        latitude = event.lat,
+                        longitude = event.lng
+                    )
+                }
             }
             RegisterParkingEvent.OnClickRegister -> sendRegistration()
             RegisterParkingEvent.OnClickBack -> emit(RegisterParkingEffect.NavigateBack)

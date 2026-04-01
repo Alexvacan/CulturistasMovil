@@ -3,6 +3,9 @@ package com.easypark.app.spacemanagement.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.easypark.app.spacemanagement.domain.usecase.GetSpaceDataUseCase
+import com.easypark.app.spacemanagement.presentation.state.SpaceManagementEffect
+import com.easypark.app.spacemanagement.presentation.state.SpaceManagementEvent
+import com.easypark.app.spacemanagement.presentation.state.SpaceManagementUiState
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

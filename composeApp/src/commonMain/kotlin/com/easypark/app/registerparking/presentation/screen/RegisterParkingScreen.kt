@@ -3,12 +3,10 @@ package com.easypark.app.registerparking.presentation.screen
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -34,10 +32,14 @@ fun RegisterParkingScreen(
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 RegisterParkingEffect.NavigateBack -> {
-                    navController.navigate(NavRoute.Register)
+                    navController.popBackStack()
                 }
                 RegisterParkingEffect.NavigateToSuccess -> {
-                    // TODO:  
+                    navController.navigate(NavRoute.SpaceManagement) { // 👈 Abrimos llaves aquí
+                        popUpTo(NavRoute.SignIn) {
+                            inclusive = true
+                        }
+                    }
                 }
                 is RegisterParkingEffect.ShowError -> {
                     println("Error: ${effect.message}")
@@ -46,91 +48,81 @@ fun RegisterParkingScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            ParkHeader(
-                title = "Registra tu parqueo",
-                onBackClick = { viewModel.onEvent(RegisterParkingEvent.OnClickBack) }
-            )
-        },
-        containerColor = ParkBackground
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = 20.dp)
-                .verticalScroll(scrollState)
-        ) {
-            ParkTextField(
-                value = state.name,
-                onValueChange = { viewModel.onEvent(RegisterParkingEvent.OnNameChanged(it)) },
-                label = "Nombre del parqueo",
-                placeholder = "e.g. Downtown Central Garage",
-                isError = state.isNameError
-            )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+            .padding(horizontal = 20.dp)
+            .padding(bottom = 24.dp)
+    ) {
+        ParkHeader(
+            title = "Registra tu parqueo",
+            onBackClick = { viewModel.onEvent(RegisterParkingEvent.OnClickBack) }
+        )
 
-            ParkTextField(
-                value = state.address,
-                onValueChange = { viewModel.onEvent(RegisterParkingEvent.OnAddressChanged(it)) },
-                label = "Direccion",
-                placeholder = "Enter street address",
-                isError = state.isAddressError
-            )
+        ParkTextField(
+            value = state.name,
+            onValueChange = { viewModel.onEvent(RegisterParkingEvent.OnNameChanged(it)) },
+            label = "Nombre del parqueo",
+            placeholder = "e.g. Downtown Central Garage",
+            isError = state.isNameError
+        )
 
-            Spacer(Modifier.height(8.dp))
-            Text("Localizacion", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = ParkTextDark)
-            Spacer(Modifier.height(8.dp))
+        ParkTextField(
+            value = state.address,
+            onValueChange = { viewModel.onEvent(RegisterParkingEvent.OnAddressChanged(it)) },
+            label = "Direccion",
+            placeholder = "Ingresa tu direccion exacta",
+            isError = state.isAddressError
+        )
 
-            // --- AQUÍ USAMOS TU COMPONENTE ---
-            ParkingMapSection(
-                state = state,
-                onLocationChanged = { lat, lng ->
-                    viewModel.onEvent(RegisterParkingEvent.OnLocationChanged(lat, lng))
-                }
-            )
-            // --------------------------------
+        Spacer(Modifier.height(12.dp))
+        Text(
+            text = "Localizacion",
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            color = ParkTextDark
+        )
+        Spacer(Modifier.height(8.dp))
 
-            Spacer(Modifier.height(16.dp))
-
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Box(Modifier.weight(1f)) {
-                    ParkTextField(
-                        value = state.pricePerHour,
-                        onValueChange = { viewModel.onEvent(RegisterParkingEvent.OnPriceChanged(it)) },
-                        label = "Precio por hora",
-                        placeholder = "$ 5.00",
-                        isError = state.isPriceError
-                    )
-                }
-                Box(Modifier.weight(1f)) {
-                    ParkTextField(
-                        value = state.totalSpaces,
-                        onValueChange = { viewModel.onEvent(RegisterParkingEvent.OnSpacesChanged(it)) },
-                        label = "Cant. espacios",
-                        placeholder = "25",
-                        isError = state.isSpacesError
-                    )
-                }
+        ParkingMapSection(
+            state = state,
+            onLocationChanged = { lat, lng ->
+                viewModel.onEvent(RegisterParkingEvent.OnLocationChanged(lat, lng))
             }
+        )
 
-            Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(16.dp))
 
-            if (state.isLoading) {
-                ParkLoading()
-            } else {
-                ParkButton(
-                    text = "Finalizar",
-                    onClick = { viewModel.onEvent(RegisterParkingEvent.OnClickRegister) }
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Box(Modifier.weight(1f)) {
+                ParkTextField(
+                    value = state.pricePerHour,
+                    onValueChange = { viewModel.onEvent(RegisterParkingEvent.OnPriceChanged(it)) },
+                    label = "Precio por hora",
+                    placeholder = "$ 5.00",
+                    isError = state.isPriceError
                 )
             }
+            Box(Modifier.weight(1f)) {
+                ParkTextField(
+                    value = state.totalSpaces,
+                    onValueChange = { viewModel.onEvent(RegisterParkingEvent.OnSpacesChanged(it)) },
+                    label = "Cant. espacios",
+                    placeholder = "25",
+                    isError = state.isSpacesError
+                )
+            }
+        }
 
-            Text(
-                text = "By clicking Finish setup, you agree to our terms of service for parking operators.",
-                fontSize = 12.sp,
-                color = ParkGray,
-                modifier = Modifier.padding(vertical = 20.dp),
-                textAlign = TextAlign.Center
+        Spacer(Modifier.height(20.dp))
+
+        if (state.isLoading) {
+            ParkLoading()
+        } else {
+            ParkButton(
+                text = "Finalizar",
+                onClick = { viewModel.onEvent(RegisterParkingEvent.OnClickRegister) }
             )
         }
     }

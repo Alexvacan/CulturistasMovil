@@ -7,7 +7,6 @@ import kotlinx.coroutines.delay
 
 class SpaceManagementMockRepository : SpaceManagementRepository {
     override suspend fun getSpaceSummary(): SpaceSummary {
-        delay(500) // Simular retardo de red
         return SpaceSummary(
             totalCapacity = 50,
             occupied = 32,
@@ -16,7 +15,6 @@ class SpaceManagementMockRepository : SpaceManagementRepository {
     }
 
     override suspend fun getParkingSpots(): List<ParkingSpot> {
-        delay(500) // Simular retardo de red
         return listOf(
             ParkingSpot("1", "A-01", false),
             ParkingSpot("2", "A-01", false),

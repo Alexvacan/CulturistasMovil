@@ -1,4 +1,5 @@
 package com.easypark.app.spacemanagement.presentation.state
 
-interface SpaceManagementEvent {
+sealed interface SpaceManagementEvent {
+    object LoadData : SpaceManagementEvent
 }

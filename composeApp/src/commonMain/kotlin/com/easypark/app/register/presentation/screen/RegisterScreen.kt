@@ -2,11 +2,14 @@ package com.easypark.app.register.presentation.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -16,6 +19,8 @@ import com.easypark.app.register.presentation.viewmodel.RegisterViewModel
 import com.easypark.app.shared.domain.model.UserType
 import com.easypark.app.shared.presentation.composable.ParkButton
 import com.easypark.app.shared.presentation.composable.ParkTextField
+import com.easypark.app.shared.ui.ParkBlue
+import com.easypark.app.shared.ui.ParkBlueLight
 import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.painterResource
 import kotlinproject.composeapp.generated.resources.Res
@@ -61,13 +66,28 @@ fun RegisterScreen(
             Image(
                 painter = painterResource(Res.drawable.register_bg),
                 contentDescription = null,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = androidx.compose.ui.layout.ContentScale.Crop
             )
+
+            IconButton(
+                onClick = { viewModel.onEvent(RegisterEvent.OnLoginClick) },
+                modifier = Modifier
+                    .padding(top = 16.dp, start = 8.dp)
+                    .align(Alignment.TopStart)
+            ) {
+                Icon(
+                    imageVector = androidx.compose.material.icons.Icons.Default.ArrowBack,
+                    contentDescription = "Atrás",
+                    tint = Color.White
+                )
+            }
 
             Text(
                 text = "REGISTRATE",
                 color = Color.White,
                 fontSize = 36.sp,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(start = 16.dp)
@@ -135,7 +155,6 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Botón Conductor
                 val isConductor = state.role == UserType.DRIVER
                 Button(
                     onClick = { viewModel.onEvent(RegisterEvent.OnRoleSelected(UserType.DRIVER)) },
@@ -152,7 +171,7 @@ fun RegisterScreen(
                     onClick = { viewModel.onEvent(RegisterEvent.OnRoleSelected(UserType.OWNER)) },
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isDueno) MaterialTheme.colorScheme.primary else Color.LightGray
+                        containerColor = if (isDueno) ParkBlue else ParkBlueLight
                     )
                 ) {
                     Text("Dueño", color = if (isDueno) Color.White else Color.Black)
