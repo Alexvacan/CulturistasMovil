@@ -10,13 +10,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ParkingDetailsViewModel(
+    private val parkingId: String,
     private val getParkingDetailUseCase: GetParkingDetailUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(ParkingDetailsUIState())
     val state = _state.asStateFlow()
 
     init {
-        loadParkingDetail("1")
+        loadParkingDetail(parkingId)
     }
 
     private fun loadParkingDetail(id: String) {

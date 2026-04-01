@@ -23,15 +23,15 @@ fun ParkingDetailCard(
     modifier: Modifier = Modifier
 ) {
     ParkCard(modifier = modifier) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
             Text(
                 text = parking.name,
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 color = Color.Black
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -41,36 +41,38 @@ fun ParkingDetailCard(
                     text = "${parking.pricePerHour} Bs/hora",
                     color = ParkBlue,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 14.sp
                 )
 
                 Text(
                     text = if (parking.isAvailable) "Disponible" else "Lleno",
                     color = if (parking.isAvailable) ParkSuccess else ParkError,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 14.sp
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Box(modifier = Modifier.weight(1f)) {
+                Box(modifier = Modifier.weight(1.2f)) {
                     ParkButton(
                         text = "Reservar",
                         onClick = onReserve,
-                        enabled = parking.isAvailable
+                        enabled = parking.isAvailable,
+                        modifier = Modifier.height(38.dp)
                     )
                 }
 
-                Box(modifier = Modifier.weight(1f)) {
+                Box(modifier = Modifier.weight(1.2f)) {
                     ParkButton(
-                        text = "Ver Detalles",
+                        text = "Ver Más",
                         onClick = onDetails,
-                        isSecondary = true
+                        isSecondary = true,
+                        modifier = Modifier.height(38.dp)
                     )
                 }
             }

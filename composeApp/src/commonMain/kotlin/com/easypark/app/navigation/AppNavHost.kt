@@ -4,15 +4,20 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.easypark.app.earnings.presentation.screen.EarningsScreen
 import com.easypark.app.findparking.presentation.screen.FindParkingScreen
 import com.easypark.app.notifications.presentation.screen.NotificationsScreen
+import com.easypark.app.parkingdetails.presentation.screen.ParkingDetailsScreen
+import com.easypark.app.parkingdetails.presentation.viewmodel.ParkingDetailsViewModel
 import com.easypark.app.register.presentation.screen.RegisterScreen
 import com.easypark.app.registerparking.presentation.screen.RegisterParkingScreen
 import com.easypark.app.reservationhistory.presentation.screen.ReservationHistoryScreen
 import com.easypark.app.reservationsummary.presentation.screen.ReservationSummaryScreen
 import com.easypark.app.signin.presentation.screen.SignInScreen
 import com.easypark.app.spacemanagement.presentation.screen.SpaceManagementScreen
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun AppNavHost() {
@@ -58,17 +63,24 @@ fun AppNavHost() {
             ReservationSummaryScreen(navController)
         }
 
-//        composable<NavRoute.ParkingDetails> {
-//            val viewModel = koinViewModel<ParkingDetailsViewModel>()
-//            ParkingDetailsScreen(
-//                viewModel = viewModel,
-//                onNavigateBack = { navController.popBackStack() },
-//                onNavigateToBooking = { parkingId ->
-//                    navController.navigate(NavRoute.BookingConfirmation)
-//                }
-//            )
-//        }
-        
+        composable<NavRoute.ParkingDetails> { backStackEntry ->
+            val args = backStackEntry.toRoute<NavRoute.ParkingDetails>()  // 1. Obtener los argumentos de la ruta (Safe Args)
+
+            val viewModel: ParkingDetailsViewModel = koinViewModel { // 2. Obtener el ViewModel pasando el ID como parámetro a Koin
+                parametersOf(args.id)
+            }
+
+            ParkingDetailsScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToBooking = { id ->
+                    TODO()
+                }
+            )
+        }
+
+
+
 //        composable<NavRoute.BookingConfirmation> {
 //            val viewModel = koinViewModel<BookingConfirmationViewModel>()
 //            BookingConfirmationScreen(

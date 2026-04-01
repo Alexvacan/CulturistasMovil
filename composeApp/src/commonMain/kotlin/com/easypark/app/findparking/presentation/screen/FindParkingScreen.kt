@@ -46,7 +46,9 @@ fun FindParkingScreen(
             when (effect) {
                 is FindParkingEffect.MoveCamera -> { /* Lógica para mover el mapa */ }
                 is FindParkingEffect.NavigateToBooking -> TODO()
-                is FindParkingEffect.NavigateToDetails -> TODO()
+                is FindParkingEffect.NavigateToDetails -> {
+                    navController.navigate(NavRoute.ParkingDetails(effect.parkingId))
+                }
             }
         }
     }
