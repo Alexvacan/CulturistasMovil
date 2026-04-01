@@ -1,9 +1,8 @@
-package com.easypark.app.spacemanagement.data
+package com.easypark.app.spacemanagement.data.repository
 
 import com.easypark.app.spacemanagement.domain.model.ParkingSpot
 import com.easypark.app.spacemanagement.domain.model.SpaceSummary
 import com.easypark.app.spacemanagement.domain.repository.SpaceManagementRepository
-import kotlinx.coroutines.delay
 
 class SpaceManagementMockRepository : SpaceManagementRepository {
     override suspend fun getSpaceSummary(): SpaceSummary {

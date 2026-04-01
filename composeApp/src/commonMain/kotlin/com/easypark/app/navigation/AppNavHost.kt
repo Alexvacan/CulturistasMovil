@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.easypark.app.notifications.presentation.screen.NotificationsScreen
 import com.easypark.app.register.presentation.screen.RegisterScreen
 import com.easypark.app.registerparking.presentation.screen.RegisterParkingScreen
 import com.easypark.app.signin.presentation.screen.SignInScreen
@@ -33,15 +34,12 @@ fun AppNavHost() {
             SpaceManagementScreen(navController)
         }
 
+        composable<NavRoute.Notifications> {
+            NotificationsScreen(navController)
+        }
 
 
-//        composable<NavRoute.Notifications> {
-//            val viewModel = koinViewModel<NotificationsViewModel>()
-//            NotificationsScreen(
-//                viewModel = viewModel,
-//                onBack = { navController.popBackStack() }
-//            )
-//        }
+
 //        composable<NavRoute.ParkingDetails> {
 //            val viewModel = koinViewModel<ParkingDetailsViewModel>()
 //            ParkingDetailsScreen(

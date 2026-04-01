@@ -1,4 +1,4 @@
-package com.easypark.app.registerparking.data
+package com.easypark.app.registerparking.data.repository
 
 import com.easypark.app.registerparking.domain.model.ParkingModel
 import com.easypark.app.registerparking.domain.repository.ParkingRepository

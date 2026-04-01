@@ -1,4 +1,6 @@
 package com.easypark.app.notifications.presentation.state
 
-interface NotificationsEvent {
+sealed interface NotificationsEvent {
+    object LoadNotifications : NotificationsEvent
+    object OnBackClick : NotificationsEvent
 }

@@ -17,4 +17,7 @@ sealed class NavRoute {
 
     @Serializable
     object SpaceManagement: NavRoute()
+
+    @Serializable
+    object Notifications: NavRoute()
 }

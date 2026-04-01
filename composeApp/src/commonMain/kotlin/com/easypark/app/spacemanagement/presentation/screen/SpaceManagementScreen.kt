@@ -32,7 +32,12 @@ fun SpaceManagementScreen(
 
     Scaffold(
         topBar = {
-            ParkHeader(title = "Gestión de Espacios")
+            ParkHeader(
+                title = "Gestión de Espacios",
+                onNotificationClick = {
+                    navController.navigate(NavRoute.Notifications)
+                }
+            )
         },
         bottomBar = {
             OwnerFooter(
