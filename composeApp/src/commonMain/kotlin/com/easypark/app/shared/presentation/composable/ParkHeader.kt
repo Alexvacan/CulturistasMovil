@@ -25,6 +25,7 @@ import kotlinproject.composeapp.generated.resources.ic_back
 import kotlinproject.composeapp.generated.resources.ic_notification
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun ParkHeader(
@@ -32,49 +33,51 @@ fun ParkHeader(
     onBackClick: (() -> Unit)? = null, // Si es null, no sale la flecha
     onNotificationClick: (() -> Unit)? = null // Si es null, no sale la campana
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .statusBarsPadding()
-            .padding(horizontal = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // Botón Atrás (Solo si se pasa la función)
-        Box(modifier = Modifier.size(40.dp)) {
-            if (onBackClick != null) {
-                IconButton(onClick = onBackClick) {
-                    Image(
-                        painter = painterResource(Res.drawable.ic_back),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
+    Surface(color = Color.White) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Botón Atrás (Solo si se pasa la función)
+            Box(modifier = Modifier.size(40.dp)) {
+                if (onBackClick != null) {
+                    IconButton(onClick = onBackClick) {
+                        Image(
+                            painter = painterResource(Res.drawable.ic_back),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
                 }
             }
-        }
 
-        // Título Central
-        Text(
-            text = title,
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = ParkTextDark
-        )
+            // Título Central
+            Text(
+                text = title,
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = ParkTextDark
+            )
 
-        // Botón Notificación (Solo si se pasa la función)
-        Box(modifier = Modifier.size(40.dp), contentAlignment = Alignment.Center) {
-            if (onNotificationClick != null) {
-                Surface(
-                    modifier = Modifier.size(40.dp).clickable { onNotificationClick() },
-                    shape = CircleShape,
-                    color = ParkBlueLight
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.ic_notification),
-                        contentDescription = null,
-                        modifier = Modifier.padding(10.dp)
-                    )
+            // Botón Notificación (Solo si se pasa la función)
+            Box(modifier = Modifier.size(40.dp), contentAlignment = Alignment.Center) {
+                if (onNotificationClick != null) {
+                    Surface(
+                        modifier = Modifier.size(40.dp).clickable { onNotificationClick() },
+                        shape = CircleShape,
+                        color = ParkBlueLight
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.ic_notification),
+                            contentDescription = null,
+                            modifier = Modifier.padding(10.dp)
+                        )
+                    }
                 }
             }
         }

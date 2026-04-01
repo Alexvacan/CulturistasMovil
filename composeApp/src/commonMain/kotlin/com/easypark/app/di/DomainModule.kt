@@ -1,5 +1,6 @@
 package com.easypark.app.di
 
+import com.easypark.app.findparking.domain.usecase.GetParkingsUseCase
 import com.easypark.app.notifications.domain.usecase.GetNotificationsUseCase
 import org.koin.dsl.module
 import com.easypark.app.register.domain.usecase.DoRegisterUseCase
@@ -13,4 +14,5 @@ val domainModule = module {
     factory { RegisterParkingUseCase(get()) }
     factory { GetSpaceDataUseCase(get()) }
     factory { GetNotificationsUseCase(get()) }
+    factory { GetParkingsUseCase(get()) }
 }
