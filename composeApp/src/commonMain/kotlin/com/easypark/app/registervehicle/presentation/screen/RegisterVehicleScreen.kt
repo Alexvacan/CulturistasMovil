@@ -9,16 +9,11 @@ import androidx.compose.ui.unit.dp
 import com.easypark.app.registervehicle.presentation.state.*
 import com.easypark.app.registervehicle.presentation.viewmodel.RegisterVehicleViewModel
 import kotlinx.coroutines.flow.collectLatest
-
-// 🔹 IMPORTS SHARED (ajusta paquetes según tu proyecto)
-import com.easypark.app.shared.ParkHeader
-import com.easypark.app.shared.ParkButton
-import com.easypark.app.shared.ParkTextField
-
 import org.jetbrains.compose.resources.painterResource
 import kotlinproject.composeapp.generated.resources.Res
-import kotlinproject.composeapp.generated.resources.car_image // 👈 debes agregar
+import kotlinproject.composeapp.generated.resources.car_image
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterVehicleScreen(
     viewModel: RegisterVehicleViewModel,
@@ -40,24 +35,20 @@ fun RegisterVehicleScreen(
 
     Scaffold(
         topBar = {
-            ParkHeader(
-                title = "Registra tu vehiculo",
-                onBackClick = {
-                    viewModel.onEvent(RegisterVehicleEvent.OnBackClick)
-                },
-                onNotificationClick = null
+            TopAppBar(
+                title = { Text("Registra tu vehiculo") }
             )
         },
         bottomBar = {
-            Box(
-                modifier = Modifier.padding(16.dp)
+            Button(
+                onClick = {
+                    viewModel.onEvent(RegisterVehicleEvent.OnSubmitClick)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             ) {
-                ParkButton(
-                    text = "Finalizar",
-                    onClick = {
-                        viewModel.onEvent(RegisterVehicleEvent.OnSubmitClick)
-                    }
-                )
+                Text("Finalizar")
             }
         }
     ) { padding ->
@@ -68,7 +59,7 @@ fun RegisterVehicleScreen(
                 .padding(16.dp)
         ) {
 
-            // 🔹 IMAGEN
+
             Image(
                 painter = painterResource(Res.drawable.car_image),
                 contentDescription = null,
@@ -84,33 +75,35 @@ fun RegisterVehicleScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🔹 INPUTS (usar shared)
-            ParkTextField(
+            TextField(
                 value = state.plate,
                 onValueChange = {
                     viewModel.onEvent(RegisterVehicleEvent.OnPlateChange(it))
                 },
-                placeholder = "e.g. ABC-1234"
+                placeholder = { Text("e.g. ABC-1234") },
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            ParkTextField(
+            TextField(
                 value = state.model,
                 onValueChange = {
                     viewModel.onEvent(RegisterVehicleEvent.OnModelChange(it))
                 },
-                placeholder = "e.g. Toyota Camry 2024"
+                placeholder = { Text("e.g. Toyota Camry 2024") },
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            ParkTextField(
+            TextField(
                 value = state.color,
                 onValueChange = {
                     viewModel.onEvent(RegisterVehicleEvent.OnColorChange(it))
                 },
-                placeholder = "Select vehicle color"
+                placeholder = { Text("Select vehicle color") },
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
