@@ -6,6 +6,7 @@ import com.easypark.app.register.data.repository.RegisterRepositoryImpl
 import com.easypark.app.register.domain.repository.RegisterRepository
 import org.koin.dsl.module
 import com.easypark.app.shared.data.repository.ParkingRepositoryImpl
+import com.easypark.app.shared.domain.repository.ParkingRepository
 import com.easypark.app.signin.data.repository.AuthenticationRepositoryImpl
 import com.easypark.app.signin.domain.repository.AuthenticationRepository
 import com.easypark.app.spacemanagement.data.repository.SpaceManagementMockRepository
@@ -16,5 +17,5 @@ val dataModule = module {
     single<RegisterRepository> { RegisterRepositoryImpl() }
     single<SpaceManagementRepository> { SpaceManagementMockRepository() }
     single<NotificationsRepository> { MockNotificationsRepository() }
-    single<com.easypark.app.shared.domain.repository.ParkingRepository> { ParkingRepositoryImpl() }
+    single<ParkingRepository> { ParkingRepositoryImpl() }
 }

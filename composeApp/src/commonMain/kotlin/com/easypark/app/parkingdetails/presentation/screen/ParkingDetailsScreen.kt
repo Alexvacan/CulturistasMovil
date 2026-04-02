@@ -16,26 +16,46 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.easypark.app.parkingdetails.presentation.state.ParkingDetailsEffect
+import com.easypark.app.parkingdetails.presentation.state.ParkingDetailsEvent
 import com.easypark.app.shared.presentation.composable.ParkButton
 import com.easypark.app.shared.presentation.composable.ParkHeader
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.*
+import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ParkingDetailsScreen(
-    viewModel: ParkingDetailsViewModel,
-    onNavigateBack: () -> Unit,
-    onNavigateToBooking: (String) -> Unit
+    navController: NavHostController,
+    viewModel: ParkingDetailsViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                ParkingDetailsEffect.NavigateBack -> navController.popBackStack()
+                is ParkingDetailsEffect.NavigateToBooking -> {
+                    // Aquí navegas a la confirmación usando el ID
+                    // navController.navigate(NavRoute.ReservationSummary(effect.id))
+                }
+                is ParkingDetailsEffect.ShowError -> {
+                    println("Error: ${effect.message}")
+                }
+            }
+        }
+    }
+
 
     Scaffold(
         topBar = {
             ParkHeader(
                 title = stringResource(Res.string.parking_details_title),
-                onBackClick = onNavigateBack,
+                onBackClick = { viewModel.onEvent(ParkingDetailsEvent.OnBackClick) },
                 onNotificationClick = null
             )
         },
@@ -44,11 +64,12 @@ fun ParkingDetailsScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .navigationBarsPadding()
                         .padding(16.dp)
                 ) {
                     ParkButton(
                         text = stringResource(Res.string.reserve_button),
-                        onClick = { onNavigateToBooking(state.parkingDetail!!.id) },
+                        onClick = { viewModel.onEvent(ParkingDetailsEvent.OnReserveClick) },
                         isSecondary = false
                     )
                 }

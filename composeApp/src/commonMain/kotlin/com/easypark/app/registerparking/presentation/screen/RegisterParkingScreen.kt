@@ -35,7 +35,7 @@ fun RegisterParkingScreen(
                     navController.popBackStack()
                 }
                 RegisterParkingEffect.NavigateToSuccess -> {
-                    navController.navigate(NavRoute.SpaceManagement) { // 👈 Abrimos llaves aquí
+                    navController.navigate(NavRoute.SpaceManagement) {
                         popUpTo(NavRoute.SignIn) {
                             inclusive = true
                         }
@@ -51,14 +51,16 @@ fun RegisterParkingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .verticalScroll(scrollState)
             .padding(horizontal = 20.dp)
-            .padding(bottom = 24.dp)
     ) {
         ParkHeader(
             title = "Registra tu parqueo",
             onBackClick = { viewModel.onEvent(RegisterParkingEvent.OnClickBack) }
         )
+
+        Spacer(Modifier.height(12.dp))
 
         ParkTextField(
             value = state.name,
