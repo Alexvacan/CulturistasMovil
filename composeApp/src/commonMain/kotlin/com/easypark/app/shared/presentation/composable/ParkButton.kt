@@ -20,14 +20,18 @@ fun ParkButton(
     text: String,
     onClick: () -> Unit,
     isSecondary: Boolean = false,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier.fillMaxWidth().height(45.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isSecondary) ParkBlueLight else ParkBlue,
-            contentColor = if (isSecondary) ParkBlue else Color.White
+            contentColor = if (isSecondary) ParkBlue else Color.White,
+            disabledContainerColor = Color(0xFFE2E8F0),
+            disabledContentColor = Color(0xFF94A3B8)
         ),
         shape = RoundedCornerShape(12.dp),
         elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp)

@@ -33,11 +33,11 @@ import org.jetbrains.compose.resources.painterResource
 fun ParkTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    label: String,
+    label: String = "",
     placeholder: String,
     leadingImage: org.jetbrains.compose.resources.DrawableResource? = null,
     isPassword: Boolean = false,
-    isError: Boolean
+    isError: Boolean = false
 ) {
     Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Text(text = label, fontWeight = FontWeight.Bold, fontSize = 12.sp, color = ParkTextDark)

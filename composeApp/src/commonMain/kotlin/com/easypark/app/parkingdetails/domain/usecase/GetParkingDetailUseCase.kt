@@ -1,10 +1,10 @@
 package com.easypark.app.parkingdetails.domain.usecase
 
 import com.easypark.app.parkingdetails.domain.model.ParkingDetail
-import com.easypark.app.parkingdetails.domain.repository.ParkingDetailRepository
+import com.easypark.app.shared.domain.repository.ParkingRepository
 
 class GetParkingDetailUseCase(
-    val repository: ParkingDetailRepository
+    val repository: ParkingRepository
 ) {
     suspend operator fun invoke(id: String): ParkingDetail {
         return repository.getParkingDetail(id)

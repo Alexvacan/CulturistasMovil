@@ -22,8 +22,8 @@ actual fun ParkingMapSection(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(240.dp)
-            .clip(RoundedCornerShape(20.dp))
+            .height(180.dp)
+            .clip(RoundedCornerShape(16.dp))
     ) {
         AndroidView(
             modifier = Modifier.fillMaxSize(),

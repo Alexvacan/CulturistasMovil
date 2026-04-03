@@ -2,9 +2,9 @@ package com.easypark.app.registerparking.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.easypark.app.registerparking.domain.model.ParkingModel
 import com.easypark.app.registerparking.domain.usecase.RegisterParkingUseCase
 import com.easypark.app.registerparking.presentation.state.*
+import com.easypark.app.shared.domain.model.ParkingModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -67,14 +67,14 @@ class RegisterParkingViewModel(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
 
-            // Mapeo al modelo de dominio
             val model = ParkingModel(
-                ownerId = "owner_123", // ID Mock del dueño actual
+                id = "owner_123", // ID Mock del dueño actual
                 name = s.name,
                 address = s.address,
                 latitude = s.latitude,
                 longitude = s.longitude,
                 pricePerHour = s.pricePerHour.toDoubleOrNull() ?: 0.0,
+                isAvailable = true,
                 totalSpaces = s.totalSpaces.toIntOrNull() ?: 0
             )
 
