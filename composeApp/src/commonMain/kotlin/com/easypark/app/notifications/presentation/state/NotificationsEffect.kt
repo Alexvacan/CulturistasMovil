@@ -1,4 +1,5 @@
 package com.easypark.app.notifications.presentation.state
 
-interface NotificationsEffect {
+sealed interface NotificationsEffect {
+    object NavigateBack : NotificationsEffect
 }

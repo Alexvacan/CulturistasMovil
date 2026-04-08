@@ -25,6 +25,8 @@ import kotlinproject.composeapp.generated.resources.ic_calendar
 import kotlinproject.composeapp.generated.resources.ic_garage
 import kotlinproject.composeapp.generated.resources.ic_home
 import org.jetbrains.compose.resources.painterResource
+import androidx.compose.foundation.layout.navigationBarsPadding
+import com.easypark.app.navigation.NavRoute
 
 @Composable
 private fun FooterItem(
@@ -38,19 +40,19 @@ private fun FooterItem(
     Column(
         modifier = Modifier
             .clickable { onClick() }
-            .padding(8.dp),
+            .padding(top = 5.dp, start = 12.dp, end = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(imageRes),
             contentDescription = null,
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(20.dp),
             colorFilter = ColorFilter.tint(color) // Esto pintará tu JPG del color del estado
         )
         Text(
             text = label,
             color = color,
-            fontSize = 12.sp,
+            fontSize = 10.sp,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
         )
     }
@@ -59,22 +61,27 @@ private fun FooterItem(
 // --- FOOTER CONDUCTOR ---
 @Composable
 fun DriverFooter(
-    currentScreen: String,
-    onNavigate: (String) -> Unit
+    currentRoute: NavRoute,
+    onNavigate: (NavRoute) -> Unit
 ) {
-    Surface(shadowElevation = 8.dp, color = Color.White) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+    Surface(color = Color.White) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
             FooterItem(
                 label = "Inicio",
                 imageRes = Res.drawable.ic_home,
-                isSelected = currentScreen == "home_driver",
-                onClick = { onNavigate("home_driver") }
+                isSelected = currentRoute is NavRoute.FindParking,
+                onClick = { onNavigate(NavRoute.FindParking) }
             )
             FooterItem(
                 label = "Mis Reservas",
                 imageRes = Res.drawable.ic_calendar,
-                isSelected = currentScreen == "reservas_driver",
-                onClick = { onNavigate("reservas_driver") }
+                isSelected = currentRoute is NavRoute.ReservationSummary,
+                onClick = { onNavigate(NavRoute.ReservationSummary) }
             )
         }
     }
@@ -83,28 +90,33 @@ fun DriverFooter(
 // --- FOOTER DUEÑO ---
 @Composable
 fun OwnerFooter(
-    currentScreen: String,
-    onNavigate: (String) -> Unit
+    currentRoute: NavRoute,
+    onNavigate: (NavRoute) -> Unit
 ) {
-    Surface(shadowElevation = 8.dp, color = Color.White) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+    Surface(color = Color.White) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
             FooterItem(
                 label = "Reservas",
                 imageRes = Res.drawable.ic_calendar,
-                isSelected = currentScreen == "reservas_owner",
-                onClick = { onNavigate("reservas_owner") }
+                isSelected = currentRoute is NavRoute.ReservationHistory,
+                onClick = { onNavigate(NavRoute.ReservationHistory) }
             )
             FooterItem(
                 label = "Inicio",
                 imageRes = Res.drawable.ic_home,
-                isSelected = currentScreen == "home_owner",
-                onClick = { onNavigate("home_owner") }
+                isSelected = currentRoute is NavRoute.Earnings,
+                onClick = { onNavigate(NavRoute.Earnings) }
             )
             FooterItem(
                 label = "Espacios",
                 imageRes = Res.drawable.ic_garage,
-                isSelected = currentScreen == "espacios_owner",
-                onClick = { onNavigate("espacios_owner") }
+                isSelected = currentRoute is NavRoute.SpaceManagement,
+                onClick = { onNavigate(NavRoute.SpaceManagement) }
             )
         }
     }
