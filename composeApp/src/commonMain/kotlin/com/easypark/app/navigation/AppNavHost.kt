@@ -14,6 +14,7 @@ import com.easypark.app.parkingdetails.presentation.screen.ParkingDetailsScreen
 import com.easypark.app.parkingdetails.presentation.viewmodel.ParkingDetailsViewModel
 import com.easypark.app.register.presentation.screen.RegisterScreen
 import com.easypark.app.registerparking.presentation.screen.RegisterParkingScreen
+import com.easypark.app.registervehicle.presentation.screen.RegisterVehicleScreen
 import com.easypark.app.reservationhistory.presentation.screen.ReservationHistoryScreen
 import com.easypark.app.reservationsummary.presentation.screen.ReservationSummaryScreen
 import com.easypark.app.signin.presentation.screen.SignInScreen
@@ -39,6 +40,10 @@ fun AppNavHost() {
 
         composable<NavRoute.RegisterParking> {
             RegisterParkingScreen(navController)
+        }
+
+        composable<NavRoute.RegisterVehicle> {
+            RegisterVehicleScreen(navController)
         }
 
         composable<NavRoute.SpaceManagement> {

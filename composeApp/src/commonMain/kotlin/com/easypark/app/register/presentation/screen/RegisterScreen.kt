@@ -42,7 +42,7 @@ fun RegisterScreen(
                     navController.navigate(NavRoute.SignIn)
                 }
                 RegisterEffect.NavigateToRegisterVehicle -> {
-                    navController.navigate(NavRoute.RegisterParking)
+                    navController.navigate(NavRoute.RegisterVehicle)
                 }
                 RegisterEffect.NavigateToRegisterParking -> {
                     navController.navigate(NavRoute.RegisterParking)
@@ -160,7 +160,7 @@ fun RegisterScreen(
                     onClick = { viewModel.onEvent(RegisterEvent.OnRoleSelected(UserType.DRIVER)) },
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isConductor) MaterialTheme.colorScheme.primary else Color.LightGray
+                        containerColor = if (isConductor) ParkBlue else ParkBlueLight
                     )
                 ) {
                     Text("Conductor", color = if (isConductor) Color.White else Color.Black)

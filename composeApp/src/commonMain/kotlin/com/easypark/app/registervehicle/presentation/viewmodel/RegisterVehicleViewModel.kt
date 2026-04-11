@@ -51,27 +51,18 @@ class RegisterVehicleViewModel(
                     isColorError = it.color.isEmpty()
                 )
             }
-            emit(RegisterVehicleEffect.ShowError("Completa todos los campos"))
             return
         }
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-
-            val model = RegisterVehicleModel(
-                plate = s.plate,
-                model = s.model,
-                color = s.color
-            )
-
-            val result = useCase(model)
-
+            val result = useCase(RegisterVehicleModel(s.plate, s.model, s.color))
             _state.update { it.copy(isLoading = false) }
 
             if (result) {
                 emit(RegisterVehicleEffect.NavigateNext)
             } else {
-                emit(RegisterVehicleEffect.ShowError("Error al registrar"))
+                emit(RegisterVehicleEffect.ShowError("Error al registrar el vehículo"))
             }
         }
     }

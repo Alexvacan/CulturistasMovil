@@ -9,6 +9,7 @@ import com.easypark.app.parkingdetails.domain.usecase.GetParkingDetailUseCase
 import org.koin.dsl.module
 import com.easypark.app.register.domain.usecase.DoRegisterUseCase
 import com.easypark.app.registerparking.domain.usecase.RegisterParkingUseCase
+import com.easypark.app.registervehicle.domain.usecase.RegisterVehicleUseCase
 import com.easypark.app.signin.domain.usecase.DoLoginUseCase
 import com.easypark.app.spacemanagement.domain.usecase.GetSpaceDataUseCase
 
@@ -23,4 +24,5 @@ val domainModule = module {
     factory { GetBookingConfirmationUseCase(get()) }
     factory { GetEarningsDataUseCase(get()) }
     factory { GetReservationHistoryUseCase(get()) }
+    factory { RegisterVehicleUseCase(get()) }
 }
