@@ -67,13 +67,16 @@ fun AppNavHost() {
 
         composable<NavRoute.ParkingDetails> { backStackEntry ->
             val args = backStackEntry.toRoute<NavRoute.ParkingDetails>()
-            val viewModel: ParkingDetailsViewModel = koinViewModel {
+            val viewModel = koinViewModel<ParkingDetailsViewModel> {
                 parametersOf(args.id)
             }
 
             ParkingDetailsScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToBooking = { parkingId ->
+                    navController.navigate(NavRoute.BookingConfirmation(parkingId))
+                }
             )
         }
 
@@ -84,8 +87,13 @@ fun AppNavHost() {
             }
 
             BookingConfirmationScreen(
-                navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToSuccess = { 
+                    navController.navigate(NavRoute.ReservationHistory) {
+                        popUpTo(NavRoute.FindParking) { inclusive = false }
+                    }
+                }
             )
         }
     }
