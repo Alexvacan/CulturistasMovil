@@ -77,7 +77,9 @@ fun RegisterVehicleScreen(
             Image(
                 painter = painterResource(Res.drawable.car_image),
                 contentDescription = null,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp),
                 contentScale = androidx.compose.ui.layout.ContentScale.Crop
             )
 

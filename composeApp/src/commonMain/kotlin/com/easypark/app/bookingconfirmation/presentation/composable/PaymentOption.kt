@@ -11,8 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.easypark.app.shared.ui.ParkBlue
+import com.easypark.app.shared.ui.ParkTextDark
 
 @Composable
 fun PaymentOption(
@@ -31,8 +32,7 @@ fun PaymentOption(
     ) {
         Text(
             text = text,
-            color = if (isSelected) Color.Blue else Color.Black,
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+            color = if (isSelected) ParkBlue else ParkTextDark
         )
     }
 }

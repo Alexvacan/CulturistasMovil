@@ -16,13 +16,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.easypark.app.bookingconfirmation.presentation.composable.BookingRow
 import com.easypark.app.bookingconfirmation.presentation.composable.PaymentOption
 import com.easypark.app.bookingconfirmation.presentation.state.BookingConfirmationEffect
 import com.easypark.app.bookingconfirmation.presentation.state.BookingConfirmationEvent
 import com.easypark.app.bookingconfirmation.presentation.state.PaymentMethod
+import com.easypark.app.navigation.NavRoute
 import com.easypark.app.shared.presentation.composable.ParkButton
 import com.easypark.app.shared.presentation.composable.ParkHeader
+import com.easypark.app.shared.ui.ParkBlue
+import com.easypark.app.shared.ui.ParkGray
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.*
 import kotlinx.coroutines.flow.collectLatest
@@ -31,8 +35,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun BookingConfirmationScreen(
-    onNavigateBack: () -> Unit,
-    onNavigateToSuccess: () -> Unit,
+    navController: NavHostController,
     viewModel: BookingConfirmationViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -40,9 +43,12 @@ fun BookingConfirmationScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                BookingConfirmationEffect.NavigateBack -> onNavigateBack()
+                BookingConfirmationEffect.NavigateBack -> navController.popBackStack()
+
                 BookingConfirmationEffect.NavigateToSuccess -> {
-                    onNavigateToSuccess()
+                    navController.navigate(NavRoute.ReservationSummary) {
+                        popUpTo(NavRoute.ReservationSummary) { inclusive = true }
+                    }
                 }
             }
         }
@@ -105,7 +111,7 @@ fun BookingConfirmationScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = stringResource(Res.string.duration_label), color = Color.Gray)
+                    Text(text = stringResource(Res.string.duration_label), color = ParkGray, fontSize = 14.sp)
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(
                             onClick = {
@@ -113,8 +119,9 @@ fun BookingConfirmationScreen(
                                     viewModel.onEvent(BookingConfirmationEvent.OnDurationChange(detail.durationHours - 1))
                                 }
                             },
+                            modifier = Modifier.size(32.dp)
                         ) {
-                            Text("-", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Blue)
+                            Text("-", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = ParkBlue)
                         }
                         Text(
                             text = detail.durationText,
@@ -128,7 +135,7 @@ fun BookingConfirmationScreen(
                                 }
                             },
                         ) {
-                            Text("+", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Blue)
+                            Text("+", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = ParkBlue)
                         }
                     }
                 }
@@ -140,24 +147,25 @@ fun BookingConfirmationScreen(
                         .padding(vertical = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = stringResource(Res.string.total_cost_label), color = Color.Gray)
-                    Text(text = detail.totalCostText, color = Color.Blue, fontWeight = FontWeight.Bold)
+                    Text(text = stringResource(Res.string.total_cost_label), color = ParkGray)
+                    Text(text = detail.totalCostText, color = ParkBlue, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 }
                 HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
 
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = stringResource(Res.string.payment_method_title),
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                        .height(50.dp)
+                        .clip(RoundedCornerShape(12.dp))
                         .background(Color(0xFFE0E0E0))
                         .padding(4.dp)
                 ) {
