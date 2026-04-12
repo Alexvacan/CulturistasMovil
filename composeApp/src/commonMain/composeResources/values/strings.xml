@@ -38,4 +38,12 @@
     <string name="cash_payment">Efectivo</string>
     <string name="qr_payment">Pagar con QR</string>
     <string name="confirm_booking_button">Confirmar reserva</string>
+
+    <string name="reservation_summary_title">Información de Reserva</string>
+    <string name="reservation_summary_location">Ubicación</string>
+    <string name="reservation_summary_space">Espacio Asignado</string>
+    <string name="reservation_summary_entry_time">Hora de Entrada</string>
+    <string name="reservation_summary_duration">Duración Estimada</string>
+    <string name="reservation_summary_cost">Costo Total</string>
+    <string name="reservation_summary_payment">Método de Pago</string>
 </resources>

@@ -22,6 +22,7 @@ import com.easypark.app.bookingconfirmation.presentation.composable.PaymentOptio
 import com.easypark.app.bookingconfirmation.presentation.state.BookingConfirmationEffect
 import com.easypark.app.bookingconfirmation.presentation.state.BookingConfirmationEvent
 import com.easypark.app.bookingconfirmation.presentation.state.PaymentMethod
+import com.easypark.app.navigation.NavRoute
 import com.easypark.app.shared.presentation.composable.ParkButton
 import com.easypark.app.shared.presentation.composable.ParkHeader
 import kotlinproject.composeapp.generated.resources.Res
@@ -42,8 +43,9 @@ fun BookingConfirmationScreen(
             when (effect) {
                 BookingConfirmationEffect.NavigateBack -> navController.popBackStack()
                 BookingConfirmationEffect.NavigateToSuccess -> {
-                    // Navegar a éxito o historial (limpiando el stack si es necesario)
-                    println("Reserva Exitosa")
+                    navController.navigate(NavRoute.ReservationSummary) {
+                        popUpTo(NavRoute.BookingConfirmation("")) { inclusive = true }
+                    }
                 }
             }
         }

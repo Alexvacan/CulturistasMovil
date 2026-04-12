@@ -9,6 +9,7 @@ import com.easypark.app.register.domain.usecase.DoRegisterUseCase
 import com.easypark.app.registerparking.domain.usecase.RegisterParkingUseCase
 import com.easypark.app.signin.domain.usecase.DoLoginUseCase
 import com.easypark.app.spacemanagement.domain.usecase.GetSpaceDataUseCase
+import com.easypark.app.reservationsummary.domain.usecase.GetReservationSummaryUseCase
 
 val domainModule = module {
     factory { DoLoginUseCase(get()) }
@@ -19,4 +20,5 @@ val domainModule = module {
     factory { GetParkingsUseCase(get()) }
     factory { GetParkingDetailUseCase(get()) }
     factory { GetBookingConfirmationUseCase(get()) }
+    factory { GetReservationSummaryUseCase(get()) }
 }
