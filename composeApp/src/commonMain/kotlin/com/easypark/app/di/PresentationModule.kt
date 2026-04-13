@@ -7,6 +7,7 @@ import com.easypark.app.notifications.presentation.viewmodel.NotificationsViewMo
 import com.easypark.app.parkingdetails.presentation.viewmodel.ParkingDetailsViewModel
 import com.easypark.app.register.presentation.viewmodel.RegisterViewModel
 import com.easypark.app.registerparking.presentation.viewmodel.RegisterParkingViewModel
+import com.easypark.app.registervehicle.presentation.viewmodel.RegisterVehicleViewModel
 import com.easypark.app.reservationhistory.presentation.viewmodel.ReservationHistoryViewModel
 import com.easypark.app.reservationsummary.presentation.viewmodel.ReservationSummaryViewModel
 import com.easypark.app.signin.presentation.viewmodel.SignInViewModel
@@ -25,6 +26,7 @@ val presentationModule = module {
     viewModelOf(::ReservationHistoryViewModel)
     viewModelOf(::FindParkingViewModel)
     viewModelOf(::ReservationSummaryViewModel)
+    viewModelOf(::RegisterVehicleViewModel)
     viewModel { (id: String) ->
         ParkingDetailsViewModel(parkingId = id, getParkingDetailUseCase = get())
     }
