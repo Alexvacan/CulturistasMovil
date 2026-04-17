@@ -6,6 +6,7 @@ import com.easypark.app.shared.domain.model.Currency
 import com.easypark.app.shared.domain.model.ParkingModel
 import com.easypark.app.shared.domain.model.Price
 import com.easypark.app.shared.domain.repository.ParkingRepository
+import com.easypark.app.reservationsummary.domain.model.ReservationSummaryModel
 
 class ParkingRepositoryImpl : ParkingRepository {
 
@@ -49,6 +50,20 @@ class ParkingRepositoryImpl : ParkingRepository {
             spaceIdentifier = "A - ${id}12", // Simulamos un espacio dinámico
             durationHours = 2,
             pricePerHour = parking?.pricePerHour ?: Price(0.0)
+        )
+    }
+
+    override suspend fun getReservationSummary(id: String): ReservationSummaryModel {
+        val parking = mockList.find { it.id == id }
+        return ReservationSummaryModel(
+            id = id,
+            parkingName = parking?.name ?: "Estacionamiento Central",
+            address = parking?.address ?: "Av. Principal 123",
+            assignedSpace = "A-12",
+            entryTime = "09:30 AM",
+            estimatedDuration = "2 horas",
+            totalCost = ((parking?.pricePerHour?.amount ?: 5.0) * 2), // Mocking calculation
+            paymentMethod = "Pagado con QR"
         )
     }
 }

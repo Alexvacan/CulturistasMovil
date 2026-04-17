@@ -48,7 +48,7 @@ fun BookingConfirmationScreen(
 
                 BookingConfirmationEffect.NavigateToSuccess -> {
                     navController.navigate(NavRoute.ReservationSummary) {
-                        popUpTo(NavRoute.ReservationSummary) { inclusive = true }
+                        popUpTo(NavRoute.BookingConfirmation("")) { inclusive = true }
                     }
                 }
             }
