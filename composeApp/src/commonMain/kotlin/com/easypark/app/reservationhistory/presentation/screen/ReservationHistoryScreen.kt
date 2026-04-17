@@ -52,8 +52,7 @@ fun ReservationHistoryScreen(
                 ParkTextField(
                     value = state.searchQuery,
                     onValueChange = { viewModel.onQueryChanged(it) },
-                    placeholder = "Buscar por nombre...",
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    placeholder = "Buscar por nombre..."
                 )
 
                 // Pestañas
