@@ -94,9 +94,10 @@ fun SignInScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // BOTÓN RENOMBRADO: Ingresar sin Inicio de sesión
         ParkButton(
             onClick = { navController.navigate(NavRoute.FindParking) },
-            text = stringResource(Res.string.action_signin)
+            text = "Ingresar sin Inicio de sesión"
         )
 
         Spacer(modifier = Modifier.height(16.dp))
