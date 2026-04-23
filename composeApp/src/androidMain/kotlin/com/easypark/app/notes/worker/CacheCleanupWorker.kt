@@ -21,52 +21,47 @@ class CacheCleanupWorker(
         Log.d("CacheCleanup", "--- INICIANDO TRABAJO DE LIMPIEZA ---")
         try {
             val remoteConfig = FirebaseRemoteConfig.getInstance()
-
-            // Configurar para que la actualización sea casi instantánea en pruebas
             val configSettings = remoteConfigSettings {
                 minimumFetchIntervalInSeconds = 0
             }
             remoteConfig.setConfigSettingsAsync(configSettings)
-
-            Log.d("CacheCleanup", "Intentando obtener límite de Firebase...")
             remoteConfig.fetchAndActivate().await()
             
             val maxLimit = remoteConfig.getLong("max_notes_limit").toInt()
-            Log.d("CacheCleanup", "Límite detectado (Firebase): $maxLimit")
-
-            // Si Firebase devuelve 0 (porque no cargó bien), usamos 10 por seguridad para tu prueba
             val finalLimit = if (maxLimit > 0) maxLimit else 10
             
             val noteDao = database.noteDao()
-            val currentCount = noteDao.getCount()
-            Log.d("CacheCleanup", "Notas actuales en base de datos: $currentCount")
+            val countBefore = noteDao.getCount()
+            Log.d("CacheCleanup", "Notas antes de limpiar: $countBefore. Límite: $finalLimit")
 
-            if (currentCount > finalLimit) {
-                val toDelete = currentCount - finalLimit
-                Log.d("CacheCleanup", "Exceso detectado. Eliminando $toDelete notas antiguas...")
+            if (countBefore > finalLimit) {
+                val toDelete = countBefore - finalLimit
                 noteDao.deleteOldest(toDelete)
                 
-                showNotification(toDelete)
-                Log.d("CacheCleanup", "Limpieza completada exitosamente.")
-            } else {
-                Log.d("CacheCleanup", "No es necesario limpiar. Todo bajo el límite.")
+                // Verificación real post-limpieza
+                val countAfter = noteDao.getCount()
+                val actuallyDeleted = countBefore - countAfter
+
+                if (actuallyDeleted > 0) {
+                    showNotification(actuallyDeleted)
+                    Log.d("CacheCleanup", "Limpieza real: $actuallyDeleted notas eliminadas.")
+                }
             }
 
             return Result.success()
         } catch (e: Exception) {
-            Log.e("CacheCleanup", "ERROR en el Worker: ${e.message}")
+            Log.e("CacheCleanup", "ERROR: ${e.message}")
             return Result.retry()
         }
     }
 
     private fun showNotification(deletedCount: Int) {
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         val builder = NotificationCompat.Builder(applicationContext, "default_channel_id")
-            .setSmallIcon(android.R.drawable.ic_menu_delete) // Cambiado a un icono de borrar
-            .setContentTitle("Culturistas: Limpieza de Caché")
-            .setContentText("Se han eliminado $deletedCount notas antiguas para optimizar espacio.")
-            .setPriority(NotificationCompat.PRIORITY_HIGH) // Prioridad alta para que aparezca arriba
+            .setSmallIcon(android.R.drawable.ic_menu_delete)
+            .setContentTitle("Limpieza de Caché")
+            .setContentText("Se han eliminado $deletedCount notas antiguas con éxito.")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
 
         notificationManager.notify(1001, builder.build())
