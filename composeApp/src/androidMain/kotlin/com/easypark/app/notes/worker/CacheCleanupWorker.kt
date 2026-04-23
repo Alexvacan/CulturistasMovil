@@ -1,15 +1,18 @@
 package com.easypark.app.notes.worker
 
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.easypark.app.MainActivity
 import com.easypark.app.notes.data.local.NoteDatabase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import kotlinx.coroutines.tasks.await
-import android.app.NotificationManager
 
 class CacheCleanupWorker(
     context: Context,
@@ -32,19 +35,16 @@ class CacheCleanupWorker(
             
             val noteDao = database.noteDao()
             val countBefore = noteDao.getCount()
-            Log.d("CacheCleanup", "Notas antes de limpiar: $countBefore. Límite: $finalLimit")
 
             if (countBefore > finalLimit) {
                 val toDelete = countBefore - finalLimit
                 noteDao.deleteOldest(toDelete)
                 
-                // Verificación real post-limpieza
                 val countAfter = noteDao.getCount()
                 val actuallyDeleted = countBefore - countAfter
 
                 if (actuallyDeleted > 0) {
                     showNotification(actuallyDeleted)
-                    Log.d("CacheCleanup", "Limpieza real: $actuallyDeleted notas eliminadas.")
                 }
             }
 
@@ -57,12 +57,26 @@ class CacheCleanupWorker(
 
     private fun showNotification(deletedCount: Int) {
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        // Crear el Intent para abrir la App al tocar la notificación
+        val intent = Intent(applicationContext, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE // Requerido para versiones modernas de Android
+        )
+
         val builder = NotificationCompat.Builder(applicationContext, "default_channel_id")
             .setSmallIcon(android.R.drawable.ic_menu_delete)
             .setContentTitle("Limpieza de Caché")
             .setContentText("Se han eliminado $deletedCount notas antiguas con éxito.")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
+            .setContentIntent(pendingIntent) // AGREGADO: Abre la app
+            .setAutoCancel(true) // Desaparece al tocarla
 
         notificationManager.notify(1001, builder.build())
     }

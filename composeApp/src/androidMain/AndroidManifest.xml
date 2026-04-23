@@ -12,7 +12,7 @@
         android:name="com.easypark.app.AndroidApp"
         android:allowBackup="true"
         android:icon="@drawable/logov2"
-        android:label="EasyPark"
+        android:label="Culturistas"
         android:roundIcon="@drawable/logov2"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
