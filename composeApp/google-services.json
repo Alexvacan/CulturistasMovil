@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "450107627992",
+    "project_id": "databasemobile-de2eb",
+    "storage_bucket": "databasemobile-de2eb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450107627992:android:c9e34fd535710aaf03baad",
+        "android_client_info": {
+          "package_name": "com.easypark.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyp0cnsiQSbJE6M1WA8Gt5c04QJGJABiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450107627992:android:24f42fdcdefa565e03baad",
+        "android_client_info": {
+          "package_name": "com.ucb.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyp0cnsiQSbJE6M1WA8Gt5c04QJGJABiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

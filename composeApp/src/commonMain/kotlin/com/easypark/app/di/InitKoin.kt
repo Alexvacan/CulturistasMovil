@@ -1,7 +1,10 @@
 package com.easypark.app.di
 
-fun getModules() = listOf(
+import org.koin.core.module.Module
+
+fun getModules(platformModule: Module) = listOf(
     domainModule,
     presentationModule,
-    dataModule
+    dataModule,
+    platformModule
 )

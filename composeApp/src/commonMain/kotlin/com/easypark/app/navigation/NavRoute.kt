@@ -15,4 +15,5 @@ sealed class NavRoute {
     @Serializable data class ParkingDetails(val id: String) : NavRoute()
     @Serializable data class BookingConfirmation(val id: String) : NavRoute()
     @Serializable data object RegisterVehicle : NavRoute()
+    @Serializable data object Notes : NavRoute()
 }

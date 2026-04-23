@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Note
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,7 +31,8 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 private fun FooterItem(
     label: String,
-    imageRes: org.jetbrains.compose.resources.DrawableResource,
+    imageRes: org.jetbrains.compose.resources.DrawableResource? = null,
+    icon: ImageVector? = null,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -40,12 +44,21 @@ private fun FooterItem(
             .padding(top = 5.dp, start = 12.dp, end = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(imageRes),
-            contentDescription = null,
-            modifier = Modifier.size(20.dp),
-            colorFilter = ColorFilter.tint(color)
-        )
+        if (imageRes != null) {
+            Image(
+                painter = painterResource(imageRes),
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                colorFilter = ColorFilter.tint(color)
+            )
+        } else if (icon != null) {
+            androidx.compose.material3.Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = color
+            )
+        }
         Text(
             text = label,
             color = color,
@@ -78,6 +91,13 @@ fun DriverFooter(
                 imageRes = Res.drawable.ic_calendar,
                 isSelected = currentRoute is NavRoute.ReservationSummary,
                 onClick = { onNavigate(NavRoute.ReservationSummary) }
+            )
+            // Nueva pestaña de Notas/Caché
+            FooterItem(
+                label = "Notas",
+                icon = Icons.Default.Note,
+                isSelected = currentRoute is NavRoute.Notes,
+                onClick = { onNavigate(NavRoute.Notes) }
             )
         }
     }
@@ -112,6 +132,12 @@ fun OwnerFooter(
                 imageRes = Res.drawable.ic_garage,
                 isSelected = currentRoute is NavRoute.SpaceManagement,
                 onClick = { onNavigate(NavRoute.SpaceManagement) }
+            )
+            FooterItem(
+                label = "Caché",
+                icon = Icons.Default.Note,
+                isSelected = currentRoute is NavRoute.Notes,
+                onClick = { onNavigate(NavRoute.Notes) }
             )
         }
     }

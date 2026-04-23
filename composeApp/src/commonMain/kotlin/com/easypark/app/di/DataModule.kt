@@ -17,6 +17,8 @@ import com.easypark.app.signin.data.repository.AuthenticationRepositoryImpl
 import com.easypark.app.signin.domain.repository.AuthenticationRepository
 import com.easypark.app.spacemanagement.data.repository.SpaceManagementMockRepository
 import com.easypark.app.spacemanagement.domain.repository.SpaceManagementRepository
+import com.easypark.app.notes.data.local.NoteDatabase
+import com.easypark.app.notes.data.local.getRoomDatabase
 
 val dataModule = module {
     single<AuthenticationRepository> { AuthenticationRepositoryImpl() }
@@ -27,4 +29,8 @@ val dataModule = module {
     single<EarningsRepository> { MockEarningsRepository() }
     single<ReservationHistoryRepository> { MockReservationHistoryRepository() }
     single<RegisterVehicleRepository> { RegisterVehicleRepositoryImpl() }
+
+    // Room Database
+    single<NoteDatabase> { getRoomDatabase(get()) }
+    single { get<NoteDatabase>().noteDao() }
 }

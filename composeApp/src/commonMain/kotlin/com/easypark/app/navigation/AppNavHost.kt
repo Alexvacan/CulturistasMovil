@@ -19,6 +19,7 @@ import com.easypark.app.reservationhistory.presentation.screen.ReservationHistor
 import com.easypark.app.reservationsummary.presentation.screen.ReservationSummaryScreen
 import com.easypark.app.signin.presentation.screen.SignInScreen
 import com.easypark.app.spacemanagement.presentation.screen.SpaceManagementScreen
+import com.easypark.app.notes.presentation.screen.NotesScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -68,6 +69,15 @@ fun AppNavHost() {
 
         composable<NavRoute.ReservationSummary> {
             ReservationSummaryScreen(navController)
+        }
+        
+        composable<NavRoute.Notes> {
+            NotesScreen(onNavigate = { route ->
+                navController.navigate(route) {
+                    popUpTo(navController.graph.startDestinationId)
+                    launchSingleTop = true
+                }
+            })
         }
 
         composable<NavRoute.ParkingDetails> { backStackEntry ->

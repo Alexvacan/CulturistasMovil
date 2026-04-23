@@ -4,10 +4,19 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.room)
 }
 
 kotlin {
-    androidTarget()
+    jvmToolchain(17)
+    
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
+    }
 
     iosX64()
     iosArm64()
@@ -31,6 +40,11 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.datetime)
+
+                // Room KMP
+                implementation(libs.androidx.room.runtime)
+                implementation("androidx.sqlite:sqlite-bundled:2.5.0-alpha13")
             }
         }
 
@@ -40,6 +54,7 @@ kotlin {
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.koin.android)
                 implementation(libs.koin.androidx.compose)
+                implementation(libs.koin.androidx.workmanager)
 
                 implementation(libs.sentry.android)
                 implementation("org.osmdroid:osmdroid-android:6.1.18")
@@ -47,36 +62,35 @@ kotlin {
                 implementation(libs.retrofit.gson)
                 implementation(libs.glide)
 
-                implementation("com.google.android.gms:play-services-location:21.0.1")
-            }
-        }
+                implementation("com.google.android.gms:play-services-location:21.3.0")
+                
+                // Firebase
+                implementation(project.dependencies.platform(libs.firebase.bom))
+                implementation(libs.firebase.messaging)
+                implementation(libs.firebase.config)
 
-
-        val iosMain by creating {
-            dependsOn(commonMain)
-            dependencies {
-            }
-        }
-
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.kotlin.test)
-            }
-        }
-    }
-
-    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-        if (name.startsWith("ios")) {
-            binaries.framework {
-                baseName = "ComposeApp"
-                isStatic = true
+                // WorkManager
+                implementation(libs.androidx.work.runtime.ktx)
+                
+                // Room Android
+                implementation(libs.androidx.room.ktx)
             }
         }
     }
 }
 
+dependencies {
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosX64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+    
+    implementation(libs.firebase.database)
+}
+
 android {
-    namespace = "com.easypark.app" // Asegúrate de que este sea tu paquete
+    namespace = "com.easypark.app"
     compileSdk = 36
 
     defaultConfig {
@@ -100,7 +114,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

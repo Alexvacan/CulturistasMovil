@@ -12,6 +12,7 @@ import com.easypark.app.reservationhistory.presentation.viewmodel.ReservationHis
 import com.easypark.app.reservationsummary.presentation.viewmodel.ReservationSummaryViewModel
 import com.easypark.app.signin.presentation.viewmodel.SignInViewModel
 import com.easypark.app.spacemanagement.presentation.viewmodel.SpaceManagementViewModel
+import com.easypark.app.notes.presentation.viewmodel.NotesViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import org.koin.core.module.dsl.viewModel
@@ -27,6 +28,7 @@ val presentationModule = module {
     viewModelOf(::FindParkingViewModel)
     viewModelOf(::ReservationSummaryViewModel)
     viewModelOf(::RegisterVehicleViewModel)
+    viewModelOf(::NotesViewModel)
     viewModel { (id: String) ->
         ParkingDetailsViewModel(parkingId = id, getParkingDetailUseCase = get())
     }
